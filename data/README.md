@@ -1,33 +1,36 @@
-# Data folder
+# Data
 
-This folder documents the datasets used in the study and provides a **minimal reproducible subset** for reviewers/readers.
+This study uses GF-1 WFV imagery and Sentinel-2 L2A surface reflectance products.
 
-## 1. Data sources
-- **GF-1 WFV** imagery (fine spatial resolution): processed by the authors (radiometric calibration, atmospheric correction, cropping, and co-registration).
-- **Sentinel-2 L2A** surface reflectance products: resampled and co-registered to match the GF-1 spatial grid.
+## What is provided in this repository
+Due to potential licensing and data-use restrictions on full satellite scenes, this repository may not redistribute the complete original imagery used in the manuscript. Instead, we provide:
 
-**Important:** The repository may not redistribute raw/original satellite products if they are subject to licensing or distribution restrictions.  
-To support reproducibility, we provide a **demo subset** (small ROI) and all scripts to reproduce the analysis pipeline.
+- **Data organization templates and naming conventions** (folder structure used in the experiments)
+- **Experiment metadata** describing:
+  - study area and study period
+  - acquisition dates used in each scenario (as reported in the manuscript tables)
+  - scenario definitions (simulated thin/thick cloud; single/multiple patches; real-cloud case)
+- **Guidance for reproducing data preparation steps**, including band selection, resampling, stacking, cropping, and co-registration settings consistent with the manuscript
 
-## 2. Demo subset (for reproducibility)
-Place the reproducible dataset in:
+## What is NOT redistributed
+- Full original GF-1 WFV scenes and Sentinel-2 L2A scenes used in the manuscript (when redistribution is not permitted).
+- Any third-party algorithm implementations (see `third_party/README.md`).
 
-`data/demo_subset/`
+## How to obtain the data
+- **Sentinel-2 L2A**: available from public Copernicus/ESA distribution portals. Users can query the study area and acquisition dates reported in the manuscript.
+- **GF-1 WFV**: should be obtained from the official data provider/platform accessible to the user or institution, using the study area and acquisition dates reported in the manuscript.
 
-Recommended structure (example):
+## Study period and region
+- Region: Gaoyou Lake and surrounding plains, Yancheng, Jiangsu Province, China.
+- Period: April–June 2020 (see manuscript Tables for exact acquisition dates).
 
-## 3. File naming conventions (recommended)
-- `GF1_target_cloudy.tif`: GF-1 image at target date with cloud contamination (input to MNSPI).
-- `GF1_aux.tif`: auxiliary-date GF-1 image used for temporal support.
-- `GF1_reference_clear.tif`: cloud-free reference used for quantitative evaluation.
-- `cloud_mask.tif`: binary mask (1=cloud/cloud-shadow; 0=clear), simulated or manual/refined.
+## Reproducibility note
+End-to-end reproduction of the full pipeline requires:
+1) access to the satellite imagery listed above,
+2) third-party implementations of MNSPI/STARFM/ESTARFM/FSDAF (not redistributed),
+3) applying the preprocessing and experimental settings reported in the manuscript (Section 2).
 
-## 4. Coordinate system / resolution
-- GF-1 WFV: 16 m (four bands: Blue, Green, Red, NIR).
-- Sentinel-2 L2A: resampled/co-registered to match the GF-1 grid for fusion experiments.
-
-## 5. How to reproduce the paper with the demo subset
-After placing the demo subset, run the scripts in:
-- `scripts/01_cloud_simulation/` (optional if masks already provided)
-- `scripts/02_metrics_apa/` (to compute RMSE/AD/EDGE/LBP and generate APA plots)
-- `scripts/03_classification/` (to reproduce land-cover classification experiments)
+If data redistribution is restricted, we recommend that users reproduce the workflow by:
+- downloading Sentinel-2 L2A for the same area and dates,
+- obtaining GF-1 WFV via institutional access,
+- and following the same scenario settings and evaluation protocol documented in the manuscript.
